@@ -4,14 +4,14 @@ export (PackedScene) var projectile_scene:PackedScene
 
 onready var fire_position:Position2D = $FirePosition
 
-var projectile_container:Node
-
 var player
+
+var projectile_container:Node
 
 func set_values(player, projectile_container):
 	self.player = player
 	self.projectile_container = projectile_container
-	$Time.start()
+	$Timer.start()
 
 
 func _on_Timer_timeout():
@@ -20,7 +20,7 @@ func _on_Timer_timeout():
 func fire():
 	var projectile:Projectile = projectile_scene.instance()
 	projectile_container.add_child(projectile)
-	projectile.set_starting_values($Position2D.global_position, (player.globlal_position - fire_position.global_position).normalized())
+	projectile.set_starting_values(fire_position.global_position, (player.global_position - fire_position.global_position).normalized())
 	projectile.connect("delete_requested", self, "_on_projectile_delete_requested")
 
 func _on_projectile_delete_requested(projectile):
